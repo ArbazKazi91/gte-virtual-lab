@@ -1,4 +1,111 @@
 <!DOCTYPE html>
+<html>
+
+<head>
+
+<title>
+Water Content of Soil by Oven Drying Method
+</title>
+
+<link rel="stylesheet"
+href="css/style.css">
+
+</head>
+<script>
+
+function showSection(id){
+
+let sections =
+document.querySelectorAll('.section');
+
+sections.forEach(function(section){
+
+section.classList.remove('active');
+
+});
+
+document
+.getElementById(id)
+.classList.add('active');
+
+}
+
+</script>
+<body>
+
+<header>
+
+<h1>
+Water Content of Soil by Oven Drying Method
+</h1>
+
+</header>
+
+<div class="container">
+
+<div class="sidebar">
+
+<button onclick="showSection('aim')">Aim</button>
+
+<button onclick="showSection('theory')">Theory</button>
+
+<button onclick="showSection('apparatus')">Apparatus</button>
+
+<button onclick="showSection('procedure')">Procedure</button>
+
+<button onclick="showSection('experiment')">Virtual Experiment</button>
+
+<button onclick="showSection('viva')">Viva Question</button>
+
+</div>
+
+<div class="main-content">
+
+<div id="aim" class="section active">
+
+ <h2>Aim</h2>
+    <p>
+        To determine natural water content of soil sample by oven drying method as per IS 2720 (Part 2)
+    </p>
+    </div>
+
+<div id="theory" class="section active">
+
+ <h2>Theory</h2>
+    <p>
+       Water content, also known as moisture content, is defined as the ratio of the mass of water present in a soil sample to the mass of dry soil solids, expressed as a percentage. It is one of the most important index properties of soil and significantly influences its engineering behavior, including strength, compressibility, permeability, and compaction characteristics.
+    </p>
+    </div>
+    
+<div id="apparatus" class="section active">
+
+ <h2>Apparatus</h2>
+    <p>
+       <li>Thermostatically controlled oven maintained at a temperature of 110°C ± 5°C.</li>
+        <li>Weighing balance with an accuracy of 0.04% of the mass of the soil sample taken.</li>
+        <li>Desiccator containing a suitable desiccating agent.</li>
+        <li>Airtight container made of non-corrodible material with a lid.</li>
+        <li>Tongs for handling hot containers.</li>
+    </p>
+    </div>
+
+<div id="procedure" class="section active">
+
+ <h2>Procedure</h2>
+    <p>
+        <li>Clean the container, dry it, and weigh it with the lid. Record the mass as <strong>M₁</strong>.</li>
+        <li>Place the required quantity of the wet soil specimen in the container and close it with the lid. Determine and record the combined mass as <strong>M₂</strong>.</li>
+        <li>Remove the lid and place the container with the soil sample in a drying oven. Dry the sample until a constant mass is obtained, typically for 24 hours.</li>
+        <li>After drying, remove the container from the oven using tongs. Replace the lid immediately and allow the container to cool in a desiccator.</li>
+        <li>Weigh the container with the lid and the dry soil sample. Record the mass as <strong>M₃</strong>.</li>
+    </p>
+    </div>
+
+<div id="experiment" class="section active">
+
+ <h2>Virtual Experiment</h2>
+    <p>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -213,3 +320,22 @@
     </script>
 </body>
 </html>
+</div>
+
+ <div id="viva" class="section">
+
+<h2>Viva Questions</h2>
+
+<ol>  <li>What are the various field methods used for determining the water content of soil?</li>
+        <li>If the given soil is organic in nature, what precautions should be taken while conducting the water content determination test?</li>
+        <li>Why should a soil sample not be kept in the oven for more than 24 hours during the water content determination test?</li>
+        <li>Draw the phase diagrams for:
+            <ul>
+                <li>Sandy soil</li>
+                <li>Marshy soil</li>
+                <li>Soil below the water table in a lake with proper labels and notations.</li>
+            </ul>
+    </ol> 
+    </div>
+    </div>
+</div>
