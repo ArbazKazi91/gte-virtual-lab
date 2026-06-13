@@ -1,1 +1,63 @@
+body{
+    margin:0;
+    font-family:"Times New Roman", Times, serif;
+    background:#f5f7fa;
+    text-align:justify;
+}
 
+header{
+    background:#003366;
+    color:white;
+    padding:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:15px;
+    text-align:center;
+}
+
+/* College logo */
+header img{
+    width:80px;      /* Adjust size as needed */
+    height:auto;
+}
+
+header h1,
+header h2,
+header p{
+    margin:0;
+    text-align:center;
+}
+
+.container{
+    display:flex;
+}
+
+.sidebar{
+    width:250px;
+    background:white;
+    padding:20px;
+}
+
+.sidebar a{
+    display:block;
+    padding:10px;
+    text-decoration:none;
+    color:#003366;
+    font-weight:bold;
+    text-align:left; /* Keep menu items aligned properly */
+}
+
+.content{
+    flex:1;
+    padding:20px;
+    text-align:justify;
+}
+
+section{
+    background:white;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:10px;
+    text-align:justify;
+}
