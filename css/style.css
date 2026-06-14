@@ -30,7 +30,16 @@ header p{
 }
 
 .container{
-    display:flex;
+    width:85%;
+    max-width:1300px;
+    margin:30px auto;
+}
+
+.main-content{
+    background:#e6f2ff;
+    padding:30px 40px;
+    border-radius:8px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
 
 .sidebar{
