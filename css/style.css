@@ -54,10 +54,7 @@ header p{
     text-align:justify;
 }
 
-section{
-    background:white;
-    padding:20px;
-    margin-bottom:20px;
-    border-radius:10px;
-    text-align:justify;
+.section{
+    display:block;
+    margin-bottom:30px;
 }
