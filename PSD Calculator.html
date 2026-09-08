@@ -3,158 +3,723 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Grain Size Distribution</title>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            background-color: #f5f5f5;
         }
+
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
         }
+
         table, th, td {
-            border: 1px solid black;
+            border: 1px solid #333;
         }
+
+        th {
+            background-color: #e9ecef;
+            font-weight: bold;
+        }
+
         th, td {
             padding: 10px;
             text-align: center;
         }
+
         input[type="number"] {
-            width: 100px;
+            width: 120px;
+            padding: 7px;
+            border: 1px solid #aaa;
+            border-radius: 4px;
         }
-        button {
+
+        .button-container {
+            text-align: center;
             margin: 20px 0;
-            padding: 10px 15px;
-            background-color: #28a745;
-            color: white;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 5px;
             border: none;
+            border-radius: 5px;
+            color: white;
             cursor: pointer;
+            font-size: 15px;
+        }
+
+        .calculate-btn {
+            background-color: #28a745;
+        }
+
+        .reset-btn {
+            background-color: #dc3545;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            margin-top: 20px;
+        }
+
+        .total-weight {
+            text-align: right;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 600px) {
+
+            body {
+                margin: 10px;
+            }
+
+            .container {
+                padding: 12px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            th, td {
+                padding: 7px;
+                font-size: 13px;
+            }
+
+            input[type="number"] {
+                width: 90px;
+            }
+
+            .chart-container {
+                height: 400px;
+            }
         }
     </style>
 </head>
+
 <body>
 
 <div class="container">
-    <h1>Grain Size Distribution (Calculation Only)</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Sieve Size (mm)</th>
-                <th>Weight Retained (g)</th>
-                <th>Cumulative Weight Retained (g)</th>
-                <th>Cumulative % Retained</th>
-                <th>Cumulative % Passing</th>
-            </tr>
-        </thead>
-        <tbody id="observationTable">
-            <tr>
-                <td>10 mm</td>
-                <td><input type="number" id="weightRetained1" placeholder="Weight Retained" oninput="calculate()"></td>
-                <td id="cumulativeWeight1">-</td>
-                <td id="cumulativePercentRetained1">-</td>
-                <td id="cumulativePercentPassing1">-</td>
-            </tr>
-            <tr>
-                <td>4.75 mm</td>
-                <td><input type="number" id="weightRetained2" placeholder="Weight Retained" oninput="calculate()"></td>
-                <td id="cumulativeWeight2">-</td>
-                <td id="cumulativePercentRetained2">-</td>
-                <td id="cumulativePercentPassing2">-</td>
-            </tr>
-            <tr>
-                <td>2.36 mm</td>
-                <td><input type="number" id="weightRetained3" placeholder="Weight Retained" oninput="calculate()"></td>
-                <td id="cumulativeWeight3">-</td>
-                <td id="cumulativePercentRetained3">-</td>
-                <td id="cumulativePercentPassing3">-</td>
-            </tr>
-            <tr>
-                <td>1.18 mm</td>
-                <td><input type="number" id="weightRetained4" placeholder="Weight Retained" oninput="calculate()"></td>
-                <td id="cumulativeWeight4">-</td>
-                <td id="cumulativePercentRetained4">-</td>
-                <td id="cumulativePercentPassing4">-</td>
-            </tr>
-            <tr>
-                <td>0.60 mm</td>
-                <td><input type="number" id="weightRetained5" placeholder="Weight Retained" oninput="calculate()"></td>
-                <td id="cumulativeWeight5">-</td>
-                <td id="cumulativePercentRetained5">-</td>
-                <td id="cumulativePercentPassing5">-</td>
-            </tr>
-            <tr>
-                <td>0.425 mm</td>
-                <td><input type="number" id="weightRetained6" placeholder="Weight Retained" oninput="calculate()"></td>
-                <td id="cumulativeWeight6">-</td>
-                <td id="cumulativePercentRetained6">-</td>
-                <td id="cumulativePercentPassing6">-</td>
-            </tr>
-            <tr>
-                <td>0.30 mm</td>
-                <td><input type="number" id="weightRetained7" placeholder="Weight Retained" oninput="calculate()"></td>
-                <td id="cumulativeWeight7">-</td>
-                <td id="cumulativePercentRetained7">-</td>
-                <td id="cumulativePercentPassing7">-</td>
-            </tr>
-            <tr>
-                <td>0.15 mm</td>
-                <td><input type="number" id="weightRetained8" placeholder="Weight Retained" oninput="calculate()"></td>
-                <td id="cumulativeWeight8">-</td>
-                <td id="cumulativePercentRetained8">-</td>
-                <td id="cumulativePercentPassing8">-</td>
-            </tr>
-            <tr>
-                <td>0.075 mm</td>
-                <td><input type="number" id="weightRetained9" placeholder="Weight Retained" oninput="calculate()"></td>
-                <td id="cumulativeWeight9">-</td>
-                <td id="cumulativePercentRetained9">-</td>
-                <td id="cumulativePercentPassing9">-</td>
-            </tr>
-            <tr>
-                <td>Pan</td>
-                <td><input type="number" id="weightRetained10" placeholder="Weight Retained" oninput="calculate()"></td>
-                <td id="cumulativeWeight10">-</td>
-                <td id="cumulativePercentRetained10">-</td>
-                <td id="cumulativePercentPassing10">-</td>
-            </tr>
-        </tbody>
-    </table>
-    <button onclick="calculate()">Calculate</button>
+
+    <h1>Grain Size Distribution</h1>
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Sieve Size (mm)</th>
+                    <th>Weight Retained (g)</th>
+                    <th>Cumulative Weight Retained (g)</th>
+                    <th>Cumulative % Retained</th>
+                    <th>Cumulative % Passing</th>
+                </tr>
+            </thead>
+
+            <tbody id="observationTable">
+
+                <tr>
+                    <td>10 mm</td>
+                    <td>
+                        <input type="number"
+                               id="weightRetained1"
+                               min="0"
+                               step="0.01"
+                               placeholder="Weight"
+                               oninput="calculate()">
+                    </td>
+                    <td id="cumulativeWeight1">-</td>
+                    <td id="cumulativePercentRetained1">-</td>
+                    <td id="cumulativePercentPassing1">-</td>
+                </tr>
+
+                <tr>
+                    <td>4.75 mm</td>
+                    <td>
+                        <input type="number"
+                               id="weightRetained2"
+                               min="0"
+                               step="0.01"
+                               placeholder="Weight"
+                               oninput="calculate()">
+                    </td>
+                    <td id="cumulativeWeight2">-</td>
+                    <td id="cumulativePercentRetained2">-</td>
+                    <td id="cumulativePercentPassing2">-</td>
+                </tr>
+
+                <tr>
+                    <td>2.36 mm</td>
+                    <td>
+                        <input type="number"
+                               id="weightRetained3"
+                               min="0"
+                               step="0.01"
+                               placeholder="Weight"
+                               oninput="calculate()">
+                    </td>
+                    <td id="cumulativeWeight3">-</td>
+                    <td id="cumulativePercentRetained3">-</td>
+                    <td id="cumulativePercentPassing3">-</td>
+                </tr>
+
+                <tr>
+                    <td>1.18 mm</td>
+                    <td>
+                        <input type="number"
+                               id="weightRetained4"
+                               min="0"
+                               step="0.01"
+                               placeholder="Weight"
+                               oninput="calculate()">
+                    </td>
+                    <td id="cumulativeWeight4">-</td>
+                    <td id="cumulativePercentRetained4">-</td>
+                    <td id="cumulativePercentPassing4">-</td>
+                </tr>
+
+                <tr>
+                    <td>0.60 mm</td>
+                    <td>
+                        <input type="number"
+                               id="weightRetained5"
+                               min="0"
+                               step="0.01"
+                               placeholder="Weight"
+                               oninput="calculate()">
+                    </td>
+                    <td id="cumulativeWeight5">-</td>
+                    <td id="cumulativePercentRetained5">-</td>
+                    <td id="cumulativePercentPassing5">-</td>
+                </tr>
+
+                <tr>
+                    <td>0.425 mm</td>
+                    <td>
+                        <input type="number"
+                               id="weightRetained6"
+                               min="0"
+                               step="0.01"
+                               placeholder="Weight"
+                               oninput="calculate()">
+                    </td>
+                    <td id="cumulativeWeight6">-</td>
+                    <td id="cumulativePercentRetained6">-</td>
+                    <td id="cumulativePercentPassing6">-</td>
+                </tr>
+
+                <tr>
+                    <td>0.30 mm</td>
+                    <td>
+                        <input type="number"
+                               id="weightRetained7"
+                               min="0"
+                               step="0.01"
+                               placeholder="Weight"
+                               oninput="calculate()">
+                    </td>
+                    <td id="cumulativeWeight7">-</td>
+                    <td id="cumulativePercentRetained7">-</td>
+                    <td id="cumulativePercentPassing7">-</td>
+                </tr>
+
+                <tr>
+                    <td>0.15 mm</td>
+                    <td>
+                        <input type="number"
+                               id="weightRetained8"
+                               min="0"
+                               step="0.01"
+                               placeholder="Weight"
+                               oninput="calculate()">
+                    </td>
+                    <td id="cumulativeWeight8">-</td>
+                    <td id="cumulativePercentRetained8">-</td>
+                    <td id="cumulativePercentPassing8">-</td>
+                </tr>
+
+                <tr>
+                    <td>0.075 mm</td>
+                    <td>
+                        <input type="number"
+                               id="weightRetained9"
+                               min="0"
+                               step="0.01"
+                               placeholder="Weight"
+                               oninput="calculate()">
+                    </td>
+                    <td id="cumulativeWeight9">-</td>
+                    <td id="cumulativePercentRetained9">-</td>
+                    <td id="cumulativePercentPassing9">-</td>
+                </tr>
+
+                <tr>
+                    <td>Pan</td>
+                    <td>
+                        <input type="number"
+                               id="weightRetained10"
+                               min="0"
+                               step="0.01"
+                               placeholder="Weight"
+                               oninput="calculate()">
+                    </td>
+                    <td id="cumulativeWeight10">-</td>
+                    <td id="cumulativePercentRetained10">-</td>
+                    <td id="cumulativePercentPassing10">-</td>
+                </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="total-weight">
+        Total Sample Weight:
+        <span id="totalWeight">0.00</span> g
+    </div>
+
+    <div class="button-container">
+
+        <button class="calculate-btn" onclick="calculate()">
+            Calculate
+        </button>
+
+        <button class="reset-btn" onclick="resetCalculator()">
+            Reset
+        </button>
+
+    </div>
+
+
+    <!-- PSD GRAPH -->
+
+    <h2>Particle Size Distribution Curve</h2>
+
+    <div class="chart-container">
+        <canvas id="psdChart"></canvas>
+    </div>
+
 </div>
 
+
 <script>
+
+    // Sieve sizes
+    const sieveSizes = [
+        10,
+        4.75,
+        2.36,
+        1.18,
+        0.60,
+        0.425,
+        0.30,
+        0.15,
+        0.075
+    ];
+
+    let psdChart;
+
+
+    // Calculate values
     function calculate() {
-        const rows = 10;  // Fixed number of sieve sizes
+
+        const rows = 10;
+
         let totalWeight = 0;
 
-        // Assigning numeric values for sieve sizes (Pan is given a very small value, e.g., 0.01 mm)
-        let sieveSizes = [10, 4.75, 2.36, 1.18, 0.60, 0.425, 0.30, 0.15, 0.075, 0.01];
-
-        // Calculate cumulative weights and percentages
+        // Calculate total sample weight
         for (let i = 1; i <= rows; i++) {
-            const weightRetained = parseFloat(document.getElementById('weightRetained' + i).value) || 0;
-            totalWeight += weightRetained;
+
+            const input =
+                document.getElementById(
+                    "weightRetained" + i
+                );
+
+            const weight =
+                parseFloat(input.value);
+
+            if (!isNaN(weight) && weight >= 0) {
+                totalWeight += weight;
+            }
         }
+
+
+        // Display total weight
+        document.getElementById("totalWeight").innerText =
+            totalWeight.toFixed(2);
+
+
+        // Prevent division by zero
+        if (totalWeight <= 0) {
+
+            for (let i = 1; i <= rows; i++) {
+
+                document.getElementById(
+                    "cumulativeWeight" + i
+                ).innerText = "-";
+
+                document.getElementById(
+                    "cumulativePercentRetained" + i
+                ).innerText = "-";
+
+                document.getElementById(
+                    "cumulativePercentPassing" + i
+                ).innerText = "-";
+            }
+
+            updateChart([]);
+
+            return;
+        }
+
 
         let cumulativeWeight = 0;
+
+        let graphData = [];
+
+
+        // Calculate cumulative values
         for (let i = 1; i <= rows; i++) {
-            const weightRetained = parseFloat(document.getElementById('weightRetained' + i).value) || 0;
 
-            cumulativeWeight += weightRetained;
-            const cumulativePercentRetained = (cumulativeWeight / totalWeight) * 100;
-            const cumulativePercentPassing = 100 - cumulativePercentRetained;
+            const input =
+                document.getElementById(
+                    "weightRetained" + i
+                );
 
-            document.getElementById('cumulativeWeight' + i).innerText = cumulativeWeight.toFixed(2);
-            document.getElementById('cumulativePercentRetained' + i).innerText = cumulativePercentRetained.toFixed(2);
-            document.getElementById('cumulativePercentPassing' + i).innerText = cumulativePercentPassing.toFixed(2);
+            let weight =
+                parseFloat(input.value);
+
+            if (isNaN(weight) || weight < 0) {
+                weight = 0;
+            }
+
+
+            cumulativeWeight += weight;
+
+
+            const cumulativePercentRetained =
+                (cumulativeWeight / totalWeight) * 100;
+
+
+            const cumulativePercentPassing =
+                100 - cumulativePercentRetained;
+
+
+            // Display table values
+            document.getElementById(
+                "cumulativeWeight" + i
+            ).innerText =
+                cumulativeWeight.toFixed(2);
+
+
+            document.getElementById(
+                "cumulativePercentRetained" + i
+            ).innerText =
+                cumulativePercentRetained.toFixed(2);
+
+
+            document.getElementById(
+                "cumulativePercentPassing" + i
+            ).innerText =
+                cumulativePercentPassing.toFixed(2);
+
+
+            // Add data for graph
+            // Pan is excluded
+            if (i <= 9) {
+
+                graphData.push({
+
+                    x: sieveSizes[i - 1],
+
+                    y: cumulativePercentPassing
+
+                });
+
+            }
+
         }
+
+
+        updateChart(graphData);
+
     }
+
+
+    // Create / update PSD graph
+    function updateChart(graphData) {
+
+        const ctx =
+            document.getElementById(
+                "psdChart"
+            ).getContext("2d");
+
+
+        // Destroy previous chart
+        if (psdChart) {
+            psdChart.destroy();
+        }
+
+
+        psdChart = new Chart(ctx, {
+
+            type: "line",
+
+            data: {
+
+                datasets: [
+
+                    {
+
+                        label:
+                            "Cumulative % Passing",
+
+                        data: graphData,
+
+                        borderWidth: 2,
+
+                        pointRadius: 5,
+
+                        pointHoverRadius: 7,
+
+                        tension: 0.15,
+
+                        fill: false,
+
+                        showLine: true
+
+                    }
+
+                ]
+
+            },
+
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+
+                scales: {
+
+                    x: {
+
+                        type: "logarithmic",
+
+                        reverse: true,
+
+                        title: {
+
+                            display: true,
+
+                            text:
+                                "Particle Size / Sieve Size (mm)",
+
+                            font: {
+                                size: 14,
+                                weight: "bold"
+                            }
+
+                        },
+
+                        ticks: {
+
+                            callback: function(value) {
+
+                                const labels = [
+                                    10,
+                                    4.75,
+                                    2.36,
+                                    1.18,
+                                    0.60,
+                                    0.425,
+                                    0.30,
+                                    0.15,
+                                    0.075
+                                ];
+
+                                if (
+                                    labels.includes(value)
+                                ) {
+                                    return value;
+                                }
+
+                                return "";
+                            }
+
+                        }
+
+                    },
+
+
+                    y: {
+
+                        min: 0,
+
+                        max: 100,
+
+                        title: {
+
+                            display: true,
+
+                            text:
+                                "Percentage Passing (%)",
+
+                            font: {
+                                size: 14,
+                                weight: "bold"
+                            }
+
+                        },
+
+                        ticks: {
+
+                            stepSize: 10
+
+                        }
+
+                    }
+
+                },
+
+
+                plugins: {
+
+                    title: {
+
+                        display: true,
+
+                        text:
+                            "Particle Size Distribution Curve",
+
+                        font: {
+
+                            size: 18,
+
+                            weight: "bold"
+
+                        }
+
+                    },
+
+                    legend: {
+
+                        display: true
+
+                    },
+
+                    tooltip: {
+
+                        callbacks: {
+
+                            label: function(context) {
+
+                                return (
+                                    "Particle Size: " +
+                                    context.parsed.x +
+                                    " mm, Passing: " +
+                                    context.parsed.y.toFixed(2) +
+                                    "%"
+                                );
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+
+    // Reset calculator
+    function resetCalculator() {
+
+        for (let i = 1; i <= 10; i++) {
+
+            document.getElementById(
+                "weightRetained" + i
+            ).value = "";
+
+            document.getElementById(
+                "cumulativeWeight" + i
+            ).innerText = "-";
+
+            document.getElementById(
+                "cumulativePercentRetained" + i
+            ).innerText = "-";
+
+            document.getElementById(
+                "cumulativePercentPassing" + i
+            ).innerText = "-";
+
+        }
+
+
+        document.getElementById(
+            "totalWeight"
+        ).innerText = "0.00";
+
+
+        updateChart([]);
+
+    }
+
+
+    // Initialize empty graph
+    updateChart([]);
+
 </script>
 
 </body>
